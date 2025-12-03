@@ -35,14 +35,14 @@
         .btn-stop{background:linear-gradient(90deg,#ff416c,#ff4b2b);color:white}
         .btn:active{transform:translateY(3px);box-shadow:0 3px 8px rgba(0,0,0,0.3)}
         .btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
-        .outcomes{display:flex;flex-wrap:wrap;justify-content:center;gap:15px;margin-top:20px;width:100%}
-        .outcome{flex:1;min-width:220px;padding:20px;border-radius:15px;text-align:center;background:rgba(255,255,255,0.08);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.15);transition:all 0.3s;display:flex;flex-direction:column;justify-content:center;min-height:110px}
-        .outcome.active{transform:translateY(-8px) scale(1.03);box-shadow:0 10px 20px rgba(0,0,0,0.4)}
-        .outcome-1.active{background:linear-gradient(135deg,rgba(0,176,155,0.25),rgba(150,201,61,0.25));border-color:#00b09b}
-        .outcome-2.active{background:linear-gradient(135deg,rgba(255,65,108,0.25),rgba(255,75,43,0.25));border-color:#ff416c}
-        .outcome-neutral.active{background:linear-gradient(135deg,rgba(106,17,203,0.25),rgba(37,117,252,0.25));border-color:#6a11cb}
-        .outcome-title{font-size:1.5rem;margin-bottom:8px;font-weight:bold}
-        .outcome-desc{font-size:1rem;color:#d0e7ff}
+        .outcomes-container{width:100%;height:150px;position:relative;margin:15px 0}
+        .outcome{position:absolute;top:0;left:0;width:100%;padding:25px;border-radius:15px;text-align:center;background:rgba(255,255,255,0.08);backdrop-filter:blur(8px);border:2px solid transparent;transition:all 0.5s cubic-bezier(0.68,-0.55,0.265,1.55);display:none;flex-direction:column;justify-content:center;min-height:150px;opacity:0;transform:translateY(-20px) scale(0.95);box-shadow:0 10px 30px rgba(0,0,0,0.4)}
+        .outcome.active{display:flex;opacity:1;transform:translateY(0) scale(1)}
+        .outcome-1{border-color:#00b09b;background:linear-gradient(135deg,rgba(0,176,155,0.2),rgba(150,201,61,0.2))}
+        .outcome-2{border-color:#ff416c;background:linear-gradient(135deg,rgba(255,65,108,0.2),rgba(255,75,43,0.2))}
+        .outcome-neutral{border-color:#6a11cb;background:linear-gradient(135deg,rgba(106,17,203,0.2),rgba(37,117,252,0.2))}
+        .outcome-title{font-size:2rem;margin-bottom:12px;font-weight:bold;background:linear-gradient(90deg,#fff,#f0f0f0);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 2px 8px rgba(0,0,0,0.3)}
+        .outcome-desc{font-size:1.2rem;color:#d0e7ff;line-height:1.4}
         .aphorism-container{margin-top:25px;padding:20px;border-radius:15px;background:linear-gradient(135deg,rgba(15,32,39,0.8),rgba(44,83,100,0.8));text-align:center;width:100%;min-height:180px;display:flex;flex-direction:column;justify-content:center;align-items:center;border:1px solid rgba(255,255,255,0.1);box-shadow:0 8px 20px rgba(0,0,0,0.4);position:relative;overflow:hidden}
         .aphorism-container::before{content:"〰";position:absolute;top:12px;left:15px;font-size:1.5rem;color:rgba(255,215,0,0.3)}
         .aphorism-container::after{content:"〰";position:absolute;bottom:12px;right:15px;font-size:1.5rem;color:rgba(255,215,0,0.3);transform:rotate(180deg)}
@@ -67,7 +67,10 @@
             .timer-display{font-size:2.5rem;padding:10px 20px;min-width:200px}
             .coin{width:140px;height:140px}
             .btn{padding:14px 25px;font-size:1.1rem;min-width:160px}
-            .outcome{min-width:100%}
+            .outcomes-container{height:130px;margin:10px 0}
+            .outcome{padding:20px;min-height:130px}
+            .outcome-title{font-size:1.7rem}
+            .outcome-desc{font-size:1.1rem}
             .coins-container{gap:15px}
             .aphorism-container{padding:15px;min-height:160px}
             .aphorism-text{font-size:1.1rem}
@@ -83,6 +86,10 @@
             .coin{width:130px;height:130px}
             .controls{flex-direction:column;align-items:center;gap:12px}
             .btn{width:100%;max-width:280px}
+            .outcomes-container{height:120px}
+            .outcome{min-height:120px;padding:15px}
+            .outcome-title{font-size:1.5rem;margin-bottom:8px}
+            .outcome-desc{font-size:1rem}
             .aphorism-text{font-size:1rem;padding:0 10px}
             .aphorism-container{min-height:150px;margin-top:20px}
             .history-item{flex-direction:column;gap:6px;text-align:center;font-size:0.85rem}
@@ -98,6 +105,12 @@
         .fade-in{animation:fadeIn 0.8s ease-out}
         @keyframes glow{0%{box-shadow:0 0 5px rgba(255,215,0,0.5)}50%{box-shadow:0 0 15px rgba(255,215,0,0.8)}100%{box-shadow:0 0 5px rgba(255,215,0,0.5)}}
         .glow{animation:glow 2s infinite}
+        @keyframes outcomeReveal{
+            0%{opacity:0;transform:translateY(-20px) scale(0.95);filter:blur(5px)}
+            70%{opacity:0.8;transform:translateY(5px) scale(1.02);filter:blur(0)}
+            100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+        }
+        .outcome.active{animation:outcomeReveal 0.6s cubic-bezier(0.68,-0.55,0.265,1.55) forwards}
         .history-list::-webkit-scrollbar{width:6px}
         .history-list::-webkit-scrollbar-track{background:rgba(255,255,255,0.1);border-radius:8px}
         .history-list::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#00b09b,#96c93d);border-radius:8px}
@@ -155,20 +168,20 @@
             </button>
         </div>
         
-        <div class="outcomes">
+        <div class="outcomes-container">
             <div class="outcome outcome-1" id="outcome1">
                 <div class="outcome-title">Два Орла</div>
-                <div class="outcome-desc">Исход 1: Действие</div>
+                <div class="outcome-desc">Исход 1: Действие. Ситуация требует активных действий и решительности</div>
             </div>
             
             <div class="outcome outcome-2" id="outcome2">
                 <div class="outcome-title">Две Решки</div>
-                <div class="outcome-desc">Исход 2: Созерцание</div>
+                <div class="outcome-desc">Исход 2: Созерцание. Время для размышлений и терпения</div>
             </div>
             
             <div class="outcome outcome-neutral" id="outcomeNeutral">
                 <div class="outcome-title">Баланс</div>
-                <div class="outcome-desc">Нейтральный исход: Гармония</div>
+                <div class="outcome-desc">Нейтральный исход: Гармония. Найдите равновесие между действием и бездействием</div>
             </div>
         </div>
         
@@ -312,37 +325,45 @@
             startBtn.disabled=false;
             stopBtn.disabled=true;
             result.classList.remove('glow');
+            
             const coin1Result=Math.random()>0.5?'heads':'tails';
             const coin2Result=Math.random()>0.5?'heads':'tails';
+            
             if(coin1Result==='tails'){coin1Inner.style.transform='rotateY(180deg)'}else{coin1Inner.style.transform='rotateY(0)'}
             if(coin2Result==='tails'){coin2Inner.style.transform='rotateY(180deg)'}else{coin2Inner.style.transform='rotateY(0)'}
+            
             let outcome,outcomeText,outcomeType,aphorismType;
+            
             if(coin1Result==='heads'&&coin2Result==='heads'){
                 outcome=1;
                 outcomeText="Два орла - Исход 1: Действие";
                 outcomeType="Действие";
                 aphorismType="heads";
-                outcome1.classList.add('active');
+                setTimeout(() => { outcome1.classList.add('active'); }, 300);
             }else if(coin1Result==='tails'&&coin2Result==='tails'){
                 outcome=2;
                 outcomeText="Две решки - Исход 2: Созерцание";
                 outcomeType="Созерцание";
                 aphorismType="tails";
-                outcome2.classList.add('active');
+                setTimeout(() => { outcome2.classList.add('active'); }, 300);
             }else{
                 outcome=0;
                 outcomeText="Орёл и решка - Нейтральный исход: Гармония";
                 outcomeType="Гармония";
                 aphorismType="neutral";
-                outcomeNeutral.classList.add('active');
+                setTimeout(() => { outcomeNeutral.classList.add('active'); }, 300);
             }
+            
             resultText.textContent=outcomeText;
             const randomAphorism=getRandomAphorism(aphorismType);
-            aphorismTitle.textContent=`Мудрость для "${outcomeType}"`;
-            aphorismText.textContent=`"${randomAphorism.text}"`;
-            aphorismAuthor.textContent=randomAphorism.author;
-            aphorismContainer.classList.add('fade-in');
-            addToHistory(outcomeText,randomAphorism);
+            
+            setTimeout(() => {
+                aphorismTitle.textContent=`Мудрость для "${outcomeType}"`;
+                aphorismText.textContent=`"${randomAphorism.text}"`;
+                aphorismAuthor.textContent=randomAphorism.author;
+                aphorismContainer.classList.add('fade-in');
+                addToHistory(outcomeText,randomAphorism);
+            }, 600);
         }
         
         function addToHistory(resultText,aphorism){
